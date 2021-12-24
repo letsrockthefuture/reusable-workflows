@@ -14,13 +14,15 @@ runs:
     #       cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
 
     - name: Plan
+      shell: bash
       # if: github.event_name == 'pull_request'
-      continue-on-error: true
+      # continue-on-error: true
       run: |
         make init
         make terraform/plan
 
     - name: Plan status
       if: steps.terraform_plan.outcome == 'failure'
+      shell: bash
       run: |
         exit 1
