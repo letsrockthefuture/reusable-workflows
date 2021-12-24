@@ -45,12 +45,9 @@ jobs:
 
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
-        id: terraform_plan
+        # id: terraform_plan
         if: github.event_name == 'pull_request'
         continue-on-error: true
-        run: |
-          make init
-          make terraform/plan
 
       - name: "Plan status"
         if: steps.terraform_plan.outcome == 'failure'

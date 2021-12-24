@@ -15,7 +15,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: "Set up Terraform Cloud credentials"
+    - name: "Set up Terraform credentials"
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ inputs.terraform_version }}
