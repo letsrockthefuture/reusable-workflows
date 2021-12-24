@@ -34,7 +34,6 @@ jobs:
 
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
-        # if: github.event_name == 'pull_request'
         continue-on-error: true
 
   apply:
@@ -42,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - plan
-    # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    # environment:
-    #   name: production
+    if: github.ref == "refs/heads/main" && github.event_name == "push"
+    environment:
+      name: production
     steps:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
