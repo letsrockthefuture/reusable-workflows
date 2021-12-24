@@ -59,10 +59,10 @@ jobs:
     #   name: production
     steps:
       - name: "Run `checkout` by GitHub Actions™"
-        uses: letsrockthefuture/reusable-workflows/workflows/checkout@main
+        uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
       - name: "Set up Terraform credentials"
-        uses: letsrockthefuture/reusable-workflows/workflows/terraform@main
+        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
 
       - name: "Apply"
-        uses: letsrockthefuture/reusable-workflows/workflows/terraform/apply@main
+        uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
