@@ -4,14 +4,15 @@ description: "Setting up Terraform with credentials."
 inputs:
   terraform_version:
     description: "The version of Terraform to use."
-    type: string
+    # type: string
     default: 1.1.0
+    required: false
 
-secrets:
-  cli_config_credentials_token:
-    description: "The Terraform Cloud API token."
-    type: string
-    required: true
+# secrets:
+#   cli_config_credentials_token:
+#     description: "The Terraform Cloud API token."
+#     type: string
+#     required: true
 
 runs:
   using: "composite"
