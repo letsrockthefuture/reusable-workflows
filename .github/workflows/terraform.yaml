@@ -10,9 +10,9 @@ on:
         default: "1.1.0"
         required: false
 
-    # secrets:
-    #   cli_config_credentials_token:
-    #     required: true
+    secrets:
+      cli_config_credentials_token:
+        required: true
 
 jobs:
   # checkov:
