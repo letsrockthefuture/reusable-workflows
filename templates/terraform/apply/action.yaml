@@ -4,6 +4,9 @@ description: "Run the Terraform `terraform apply` command on project."
 runs:
   using: "composite"
   steps:
+    - name: "Run `checkout` by GitHub Actions™"
+      uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+
     - name: "Apply"
       shell: bash
       run: |

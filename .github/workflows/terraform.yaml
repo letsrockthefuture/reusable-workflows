@@ -27,9 +27,6 @@ jobs:
     needs:
       - checkov
     steps:
-      - name: "Run `checkout` by GitHub Actions™"
-        uses: letsrockthefuture/reusable-workflows/templates/checkout@main
-
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
@@ -49,9 +46,6 @@ jobs:
     # environment:
     #   name: production
     steps:
-      - name: "Run `checkout` by GitHub Actions™"
-        uses: letsrockthefuture/reusable-workflows/templates/checkout@main
-
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:

@@ -1,8 +1,8 @@
-name: "Checkout by GitHub Actions"
+name: "`checkout` by GitHub Actions™"
 description: "Gets any code."
 
 runs:
   using: "composite"
   steps:
-    - name: "Run Checkout by GitHub Actions"
+    - name: "Run `checkout` by GitHub Actions™"
       uses: actions/checkout@v2
