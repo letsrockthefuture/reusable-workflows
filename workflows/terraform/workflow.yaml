@@ -1,0 +1,23 @@
+name: "Set up Terraform"
+description: "Setting up Terraform with credentials."
+
+inputs:
+  terraform_version:
+    description: "The version of Terraform to use."
+    type: string
+    default: 1.1.0
+
+secrets:
+  cli_config_credentials_token:
+    description: "The Terraform Cloud API token."
+    type: string
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Set up credentials"
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ inputs.terraform_version }}
+        cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
