@@ -18,8 +18,8 @@ jobs:
     name: "Static code analysis"
     runs-on: ubuntu-latest
     steps:
-      - name: "Run Checkov by bridgecrew.io"
-        uses: letsrockthefuture/reusable-workflows/templates/checkov@main
+      # - name: "Run Checkov by bridgecrew.io"
+      - uses: letsrockthefuture/reusable-workflows/templates/checkov@main
 
   plan:
     name: "Plan"
@@ -27,13 +27,13 @@ jobs:
     needs:
       - checkov
     steps:
-      - name: "Set up Terraform credentials"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
+      # - name: "Set up Terraform credentials"
+      - uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
-      - name: "Plan"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
+      # - name: "Plan"
+      - uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
         # if: github.event_name == 'pull_request'
         continue-on-error: true
 
@@ -46,10 +46,10 @@ jobs:
     # environment:
     #   name: production
     steps:
-      - name: "Set up Terraform credentials"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
+      # - name: "Set up Terraform credentials"
+      - uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
-      - name: "Apply"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
+      # - name: "Apply"
+      - uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
