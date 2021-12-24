@@ -4,24 +4,13 @@ description: "Run the Terraform plan command on project."
 runs:
   using: "composite"
   steps:
-    # - name: Checkout
-    # - uses: letsrockthefuture/reusable-workflows/templates/checkout/workflow.yaml@main
-
-    # - name: Set up credentials
-    #   uses: hashicorp/setup-terraform@v1
-    #   with:
-    #       terraform_version: 1.1.0
-    #       cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
-
-    - name: Plan
+    - name: "Plan"
       shell: bash
-      # if: github.event_name == 'pull_request'
-      # continue-on-error: true
       run: |
         make init
         make terraform/plan
 
-    - name: Plan status
+    - name: "Plan status"
       if: steps.terraform_plan.outcome == 'failure'
       shell: bash
       run: |

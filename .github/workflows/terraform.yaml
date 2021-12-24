@@ -49,25 +49,20 @@ jobs:
         # if: github.event_name == 'pull_request'
         continue-on-error: true
 
-      - name: "Plan status"
-        if: steps.terraform_plan.outcome == 'failure'
-        run: |
-          exit 1
+  apply:
+    name: "Apply"
+    runs-on: ubuntu-latest
+    needs:
+      - plan
+    # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # environment:
+    #   name: production
+    steps:
+      - name: "Run `checkout` by GitHub Actions™"
+        uses: letsrockthefuture/reusable-workflows/workflows/checkout@main
 
-  # apply:
-  #   name: "Apply"
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - plan
-  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-  #   environment:
-  #     name: production
-  #   steps:
-  #     - name: "Run Checkout by Actions"
-  #       uses: letsrockthefuture/reusable-workflows/workflows/checkout@main
+      - name: "Set up Terraform credentials"
+        uses: letsrockthefuture/reusable-workflows/workflows/terraform@main
 
-  #     - name: "Set up Terraform credentials"
-  #       uses: letsrockthefuture/reusable-workflows/workflows/terraform@main
-
-  #     - name: "Apply"
-  #       uses: letsrockthefuture/reusable-workflows/workflows/terraform/apply@main
+      - name: "Apply"
+        uses: letsrockthefuture/reusable-workflows/workflows/terraform/apply@main
