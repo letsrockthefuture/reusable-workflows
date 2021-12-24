@@ -1,0 +1,11 @@
+name: "Set up Golang"
+description: "Setting up Golang."
+
+inputs:
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Set up Golang"
+      uses: 
+      with:
