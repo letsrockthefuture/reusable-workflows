@@ -14,26 +14,18 @@ on:
         required: true
 
 jobs:
-  # checkov:
-  #   name: "Static code analysis"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: "Checkout"
-  #       uses: actions/checkout@v2
-
-  #     - name: "Run Checkov by bridgecrew.io"
-  #       id: checkov
-  #       uses: bridgecrewio/checkov-action@master
-  #       with:
-  #         framework: terraform
-  #         directory: terraform
-  #         skip_check: CKV_GIT_1
+  checkov:
+    name: "Static code analysis"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Run Checkov by bridgecrew.io"
+        uses: letsrockthefuture/reusable-workflows/templates/checkov@main
 
   plan:
     name: "Plan"
     runs-on: ubuntu-latest
-    # needs:
-    #   - checkov
+    needs:
+      - checkov
     steps:
       - name: "Run `checkout` by GitHub Actions™"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -45,7 +37,6 @@ jobs:
 
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
-        # id: terraform_plan
         # if: github.event_name == 'pull_request'
         continue-on-error: true
 

@@ -1,11 +1,11 @@
 name: "Static code analysis"
-description: "Run the static code analysis tool called Checkov (by bridgecrew.io) on the project to identify Terraform security issues."
+description: "Run the Checkov by bridgecrew.io (static code analysis tool) on the project to identify Terraform security issues."
 
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-    - uses: letsrockthefuture/reusable-workflows/templates/checkout/workflow.yaml@main
+    - name: "Run `checkout` by GitHub Actions™"
+      uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
     - name: "Run Checkov by bridgecrew.io"
       uses: bridgecrewio/checkov-action@master
