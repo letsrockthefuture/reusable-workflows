@@ -1,5 +1,8 @@
-name: "Complete Terraform workflow"
-description: "Run the Terraform `plan` & `apply` commands on project."
+name: "Terraform"
+# description: "Run the Terraform `plan` & `apply` commands on project."
+
+on:
+  workflow_call:
 
 jobs:
   checkov:
