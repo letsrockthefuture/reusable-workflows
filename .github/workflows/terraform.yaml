@@ -43,8 +43,8 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
-      - name: "Plan"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
+      # - name: "Plan"
+        # uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
         # id: terraform_plan
         # if: github.event_name == 'pull_request'
         # continue-on-error: true
