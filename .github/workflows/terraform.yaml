@@ -38,7 +38,7 @@ jobs:
       - name: "Run `checkout` by GitHub Actions™"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
-      - name: "Set up Terraform Cloud credentials"
+      - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
@@ -46,7 +46,7 @@ jobs:
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
         # id: terraform_plan
-        if: github.event_name == 'pull_request'
+        # if: github.event_name == 'pull_request'
         continue-on-error: true
 
       - name: "Plan status"
