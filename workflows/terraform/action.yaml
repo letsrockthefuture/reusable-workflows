@@ -21,4 +21,4 @@ runs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: ${{ inputs.terraform_version }}
-        # cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+        cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
