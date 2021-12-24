@@ -1,17 +1,15 @@
-name: Static code analysis
+name: "Static code analysis"
+description: "Run the static code analysis tool called Checkov (by bridgecrew.io) on the project to identify Terraform security issues."
 
-on:
-  workflow_call:
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+    - uses: letsrockthefuture/reusable-workflows/templates/checkout/workflow.yaml@main
 
-jobs:
-  checkov:
-    name: Checkov
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Run Checkov by bridgecrew.io"
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          framework: terraform
-          directory: terraform
-          skip_check: CKV_GIT_1
+    - name: "Run Checkov by bridgecrew.io"
+      uses: bridgecrewio/checkov-action@master
+      with:
+        framework: "terraform"
+        directory: "terraform"
+        skip_check: CKV_GIT_1
