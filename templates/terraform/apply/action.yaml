@@ -1,10 +1,11 @@
 name: "Terraform applying"
-description: "Run the Terraform `apply` command on project."
+description: "Run the Terraform `terraform apply` command on project."
 
 runs:
   using: "composite"
   steps:
     - name: "Apply"
+      shell: bash
       run: |
         make init
         make terraform/apply
