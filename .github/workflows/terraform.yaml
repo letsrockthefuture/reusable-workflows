@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       terraform_version:
-        description: "The version of Terraform to use."
+        description: "The version of Terraform command-line to use."
         type: string
         default: "1.1.0"
         required: false
@@ -35,27 +35,27 @@ jobs:
     # needs:
     #   - checkov
     steps:
-      - name: "Run Checkout by Actions"
+      - name: "Run `checkout` by GitHub Actions™"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
-      - name: "Set up Terraform credentials"
+      - name: "Set up Terraform Cloud credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
-      # - name: "Plan"
-        # uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
-        # id: terraform_plan
-        # if: github.event_name == 'pull_request'
-        # continue-on-error: true
-        # run: |
-        #   make init
-        #   make terraform/plan
+      - name: "Plan"
+        uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
+        id: terraform_plan
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: |
+          make init
+          make terraform/plan
 
-      # - name: "Plan status"
-      #   if: steps.terraform_plan.outcome == 'failure'
-      #   run: |
-      #     exit 1
+      - name: "Plan status"
+        if: steps.terraform_plan.outcome == 'failure'
+        run: |
+          exit 1
 
   # apply:
   #   name: "Apply"
