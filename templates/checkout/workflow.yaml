@@ -1,0 +1,5 @@
+name: Checkout
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v2
