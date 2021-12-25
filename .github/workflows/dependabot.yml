@@ -9,6 +9,6 @@ updates:
       - "danielvincenzi"
     schedule:
       interval: daily
-      time: "14:33"
+      time: "14:40"
       timezone: "America/Sao_Paulo"
     open-pull-requests-limit: 99
