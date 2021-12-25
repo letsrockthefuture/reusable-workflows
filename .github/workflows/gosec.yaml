@@ -1,0 +1,13 @@
+name: "Golang security checker"
+# description: "Inspects source code for security problems by scanning the Go AST."
+
+on:
+  workflow_call:
+
+jobs:
+  gosec:
+    name: "Golang security checker"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Run gosec by Secure Go"
+        uses: letsrockthefuture/reusable-workflows/templates/gosec@main
