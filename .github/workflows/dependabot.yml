@@ -8,7 +8,6 @@ updates:
     reviewers: 
       - "danielvincenzi"
     schedule:
-      interval: daily
-      time: "14:40"
+      interval: "daily"
+      time: "07:00"
       timezone: "America/Sao_Paulo"
-    open-pull-requests-limit: 99
