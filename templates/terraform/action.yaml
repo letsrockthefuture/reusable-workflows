@@ -1,5 +1,5 @@
 name: "Set up Terraform"
-description: "Setting up Terraform with +credentials."
+description: "Setting up Terraform with credentials."
 
 inputs:
   terraform_version:
