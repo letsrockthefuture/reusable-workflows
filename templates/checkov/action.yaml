@@ -16,7 +16,7 @@ runs:
       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
     - name: "Run Checkov by bridgecrew.io"
-      uses: bridgecrewio/checkov-action@v12
+      uses: bridgecrewio/bridgecrew-action@master
       with:
         api-key: ${{ inputs.bc_api_key }}
         directory: "terraform"
@@ -25,13 +25,13 @@ runs:
         output_format: "sarif"
         framework: "terraform"
         download_external_modules: true
+      env:
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_SERVER_URL: $GITHUB_SERVER_URL
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
       with:
         sarif_file: "results.sarif"
-
-        # GITHUB_REPOSITORY: ${{ github.repository }}
-        # GITHUB_REF: ${{ github.ref }}
-        # GITHUB_SHA: ${{ github.sha }}
-        # GITHUB_SERVER_URL: $GITHUB_SERVER_URL
