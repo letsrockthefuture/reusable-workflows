@@ -1,5 +1,7 @@
-name: "Static code analysis"
+name: "Checkov"
 description: "Run the Checkov by bridgecrew.io (static code analysis tool) on the project to identify Terraform security issues."
+
+author: "letsrockthefuture"
 
 runs:
   using: "composite"
@@ -12,4 +14,4 @@ runs:
       with:
         framework: "terraform"
         directory: "terraform"
-        skip_check: CKV_GIT_1
+        skip_check: CKV_GIT_1, CKV_SECRET_6

@@ -1,6 +1,8 @@
 name: "Checkout by GitHub Actions"
 description: "Gets any code."
 
+author: "letsrockthefuture"
+
 runs:
   using: "composite"
   steps:
