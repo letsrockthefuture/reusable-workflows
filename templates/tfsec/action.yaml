@@ -9,9 +9,12 @@ inputs:
     type: string
     required: true
 
+defaults:
+  run:
+    working-directory: "terraform"
+
 runs:
   using: "composite"
-  working_dir: "terraform"
   steps:
     - name: "Run Checkout by GitHub Actions"
       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -20,7 +23,6 @@ runs:
       uses: tfsec/tfsec-sarif-action@v0.0.6
       with:
         sarif_file: "tfsec.sarif"
-        config_file: "tfsec.yaml"
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
