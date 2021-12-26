@@ -17,13 +17,13 @@ runs:
 
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@main
-        with:
-          sarif_file: 'tfsec.sarif'
+      with:
+        - sarif_file: "tfsec.sarif"
 
     - name: "Upload SARIF to the code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
       with:
-        - sarif_file: 'tfsec.sarif'
+        - sarif_file: "tfsec.sarif"
 
     - name: "Run tfsec with reviewdog"
       uses: reviewdog/action-tfsec@v1.11.0
