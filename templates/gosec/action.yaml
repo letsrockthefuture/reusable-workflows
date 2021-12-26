@@ -17,6 +17,6 @@ runs:
         args: "-no-fail -fmt sarif -out results.sarif ./..."
 
     - name: "Upload SARIF results to code scanning"
-      uses: letsrockthefuture/reusable-workflows/templates/codeql/sarif@main
+      uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
       with:
         sarif_file: results.sarif

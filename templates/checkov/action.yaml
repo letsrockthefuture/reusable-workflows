@@ -4,7 +4,7 @@ description: "Run the Checkov by bridgecrew.io (static code analysis tool) on th
 runs:
   using: "composite"
   steps:
-    - name: "Run `checkout` by GitHub Actions™"
+    - name: "Run Checkout by GitHub Actions"
       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
     - name: "Run Checkov by bridgecrew.io"
