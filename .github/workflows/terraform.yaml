@@ -9,9 +9,9 @@ on:
         type: string
         default: "1.1.0"
         required: false
-    secrets:
-      cli_config_credentials_token:
-        required: true
+    # secrets:
+    #   cli_config_credentials_token:
+    #     required: true
 
 jobs:
   tfsec:
@@ -58,7 +58,8 @@ jobs:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
-          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+          # cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
 
       - name: "Apply"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
