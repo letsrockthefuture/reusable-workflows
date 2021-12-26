@@ -1,4 +1,4 @@
-name: "Code scanning"
+name: "Perform CodeQL analysis"
 description: "Run the code scanning analyze tool on the project."
 
 author: "letsrockthefuture"

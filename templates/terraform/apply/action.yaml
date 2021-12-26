@@ -6,7 +6,7 @@ author: "letsrockthefuture"
 runs:
   using: "composite"
   steps:
-    - name: "Run `checkout` by GitHub Actions™"
+    - name: "Run Checkout by GitHub Actions"
       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
     - name: "Apply"

@@ -1,4 +1,4 @@
-name: "Golang security checker"
+name: "gosec"
 description: "Inspects source code for security problems by scanning the Go AST."
 
 author: "letsrockthefuture"
@@ -14,9 +14,9 @@ runs:
     - name: "Run gosec by Secure Go"
       uses: securego/gosec@master
       with:
-        args: "-no-fail -fmt sarif -out results.sarif ./..."
+        args: "-no-fail -fmt=sarif -out results.sarif ./..."
 
     - name: "Upload SARIF results to code scanning"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
       with:
-        sarif_file: results.sarif
+        sarif_file: 'results.sarif'

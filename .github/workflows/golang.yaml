@@ -23,7 +23,7 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/codeql/analyze@main
 
   gosec:
-    name: "Security checker"
+    name: "gosec"
     runs-on: "ubuntu-latest"
     needs:
       - codeql
