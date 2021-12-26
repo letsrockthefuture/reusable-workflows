@@ -1,0 +1,19 @@
+name: "Initialize CodeQL"
+description: "Run the `init` command to initialize the CodeQL on the project."
+
+author: "letsrockthefuture"
+
+inputs:
+  language:
+    description: "The programming language of the project."
+    type: string
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Initialize CodeQL"
+      uses: github/codeql-action/init@v1
+      with:
+        queries: security-and-quality
+        languages: ${{ inputs.language }}

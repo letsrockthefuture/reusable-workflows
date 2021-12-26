@@ -1,0 +1,12 @@
+name: "Code scanning"
+description: "Run the code scanning analyze tool on the project."
+
+author: "letsrockthefuture"
+
+# inputs:
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Perform CodeQL analysis"
+      uses: github/codeql-action/analyze@v1
