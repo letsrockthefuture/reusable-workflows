@@ -27,13 +27,10 @@ runs:
 
     - name: "Run tfsec with reviewdog"
       uses: reviewdog/action-tfsec@v1.11.0
+      if: github.event_name == 'pull_request'
       with:
         github_token: ${{ inputs.github_token }}
         working_directory: "terraform"
-        level: "info"
+        filter_mode: "nofilter"
+        fail_on_error: true
         reporter: "github-pr-check"
-        filter_mode: nofilter # Check all files, not just the diff
-        fail_on_error: true # Fail action if errors are found
-        flags: -tee # Add debug flag to reviewdog
-        tfsec_version: "v0.3.0"
-        tfsec_flags: "" # Optional
