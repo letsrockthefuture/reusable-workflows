@@ -14,4 +14,4 @@ runs:
       with:
         framework: "terraform"
         directory: "terraform"
-        skip_check: CKV_GIT_1, CKV_SECRET_6
+        skip_check: CKV_GIT_1,CKV_SECRET_6

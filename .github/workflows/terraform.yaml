@@ -7,7 +7,7 @@ on:
       terraform_version:
         description: "The version of Terraform command-line to use."
         type: string
-        default: "1.1.0"
+        default: "1.1.2"
         required: false
 
 jobs:
@@ -55,7 +55,6 @@ jobs:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
-          # cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
           cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
 
       - name: "Apply"
