@@ -10,9 +10,18 @@ on:
         required: true
 
 jobs:
+  gosec:
+    name: "gosec"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Run gosec by Secure Go"
+        uses: letsrockthefuture/reusable-workflows/templates/gosec@main
+
   codeql:
     name: "CodeQL"
     runs-on: "ubuntu-latest"
+    needs:
+      - gosec
     steps:
       - name: "Initialize CodeQL by GitHub"
         uses: letsrockthefuture/reusable-workflows/templates/codeql@main
@@ -21,12 +30,3 @@ jobs:
 
       - name: "Perform CodeQL analysis"
         uses: letsrockthefuture/reusable-workflows/templates/codeql/analyze@main
-
-  gosec:
-    name: "gosec"
-    runs-on: "ubuntu-latest"
-    needs:
-      - codeql
-    steps:
-      - name: "Run gosec by Secure Go"
-        uses: letsrockthefuture/reusable-workflows/templates/gosec@main
