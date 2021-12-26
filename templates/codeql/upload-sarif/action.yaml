@@ -3,7 +3,12 @@ description: "Upload the analysis results to the GitHub code scanning alerts."
 
 author: "letsrockthefuture"
 
-# inputs:
+inputs:
+  sarif_file:
+    description: "The name of SARIF file results to upload."
+    type: string
+    default: results.sarif
+    required: false
 
 runs:
   using: "composite"
@@ -11,4 +16,4 @@ runs:
     - name: "Upload SARIF to the code scanning alerts"
       uses: github/codeql-action/upload-sarif@v1
       with:
-        sarif_file: 'results.sarif'
+        sarif_file: "${{ inputs.sarif_file }}"

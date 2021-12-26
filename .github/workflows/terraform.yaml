@@ -10,12 +10,23 @@ on:
         default: "1.1.0"
         required: false
     secrets:
+      github_token:
+        required: true
       cli_config_credentials_token:
         required: true
 
 jobs:
+  tfsec:
+    name: "tfsec"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Run tfsec by Aquasec"
+        uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
+        with:
+          github_token: "${{ inputs.github_token }}"
+
   checkov:
-    name: "Static code analysis"
+    name: "Checkov"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Run Checkov by bridgecrew.io"
