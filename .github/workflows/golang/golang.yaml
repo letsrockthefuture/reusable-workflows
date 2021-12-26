@@ -1,0 +1,83 @@
+name: "Golang"
+# description: "Golang workflow"
+
+on:
+  workflow_call:
+    inputs:
+      language:
+        description: "The programming language of the project."
+        type: string
+        required: true
+      flow_project_code:
+        description: "The code of the AppSec (Conviso) project."
+        type: string
+        required: true
+    secrets:
+      flow_api_key:
+        required: true
+
+jobs:
+  gosec:
+    name: "gosec"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Run gosec by Secure Go"
+        uses: letsrockthefuture/reusable-workflows/templates/gosec@main
+
+  codeql:
+    name: "CodeQL"
+    runs-on: "ubuntu-latest"
+    # needs:
+    #   - gosec
+    steps:
+      - name: "Initialize CodeQL by GitHub"
+        uses: letsrockthefuture/reusable-workflows/templates/codeql@main
+        with:
+          language: ${{ inputs.language }}
+
+      - name: "Perform CodeQL analysis"
+        uses: letsrockthefuture/reusable-workflows/templates/codeql/analyze@main
+
+  # conviso:
+  #   name: "Conviso SAST AppSec"
+  #   runs-on: "ubuntu-latest"
+  #   container:
+  #     image: convisoappsec/flowcli
+  #     env:
+  #       FLOW_API_KEY:  ${{ secrets.flow_api_key }}
+  #       FLOW_PROJECT_CODE: ${{ inputs.flow_project_code }}
+  #   steps:
+  #     - name: "Run SAST AppSec by Conviso"
+  #       run: |
+  #         flow sast run
+
+  build:
+    name: "Build Docker image"
+    runs-on: "ubuntu-latest"
+    needs:
+      - gosec
+      - codeql
+    steps:       
+      - name: "Set up AWS credentials"
+        uses: letsrockthefuture/reusable-workflows/templates/aws@main
+        with:
+          aws_region: ${{ inputs.aws_region }}
+          # aws-access-key-id: ${{ inputs.aws_access_key_id }}
+          # aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
+          role-to-assume: ${{ inputs.role_to_assume }}
+          role-session-name: ${{ inputs.role_session_name }}
+
+      - name: Login to Amazon ECR
+        id: login_ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login_ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ github.event.repository.name }}
+          # IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: ${{ needs.update_release_draft.outputs.tag_name }}
+        working-directory: "src/"
+        run: |
+          docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}

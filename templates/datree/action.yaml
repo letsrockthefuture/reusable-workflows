@@ -1,0 +1,26 @@
+name: "Set up & run Datree"
+description: "Setting up & running Datree on Kubernetes manifests."
+
+author: "letsrockthefuture"
+
+inputs:
+  datree_token:
+    description: "The datree.io API token."
+    type: string
+    required: false
+
+runs:
+  using: "composite"
+  env:
+    DATREE_TOKEN: ${{ inputs.datree_token }}
+  steps:
+    - name: "Run Checkout by GitHub Actions"
+      uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+
+    - name: "Install Datree"
+      run: |
+        curl https://get.datree.io | /bin/bash
+    
+    - name: "Run Datree's policy check"
+      run: |
+        datree test kubernetes/*
