@@ -1,6 +1,8 @@
 name: "Terraform applying"
 description: "Run the Terraform `terraform apply` command on project."
 
+author: "letsrockthefuture"
+
 runs:
   using: "composite"
   steps:

@@ -1,6 +1,8 @@
 name: "Terraform planning"
 description: "Run the Terraform `terraform plan` command on project."
 
+author: "letsrockthefuture"
+
 runs:
   using: "composite"
   steps:

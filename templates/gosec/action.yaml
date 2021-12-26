@@ -1,12 +1,14 @@
 name: "Golang security checker"
 description: "Inspects source code for security problems by scanning the Go AST."
 
+author: "letsrockthefuture"
+
 # inputs:
 
 runs:
   using: "composite"
   steps:
-    - name: "Run `checkout` by GitHub Actions™"
+    - name: "Run Checkout by GitHub Actions"
       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
     - name: "Run gosec by Secure Go"
@@ -14,7 +16,7 @@ runs:
       with:
         args: "-no-fail -fmt sarif -out results.sarif ./..."
 
-    - name: "Upload SARIF result file to GitHub"
-      uses: github/codeql-action/upload-sarif@v1
+    - name: "Upload SARIF results to code scanning"
+      uses: letsrockthefuture/reusable-workflows/templates/codeql/sarif@main
       with:
         sarif_file: results.sarif

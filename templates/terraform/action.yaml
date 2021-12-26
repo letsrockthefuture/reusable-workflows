@@ -1,6 +1,8 @@
 name: "Set up Terraform"
 description: "Setting up Terraform with credentials."
 
+author: "letsrockthefuture"
+
 inputs:
   terraform_version:
     description: "The version of Terraform command-line to use."
