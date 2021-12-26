@@ -9,10 +9,6 @@ inputs:
     type: string
     required: true
 
-defaults:
-  run:
-    working-directory: "terraform"
-
 runs:
   using: "composite"
   steps:

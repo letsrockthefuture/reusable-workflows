@@ -9,14 +9,14 @@ on:
         type: string
         default: "1.1.0"
         required: false
-    # secrets:
-    #   cli_config_credentials_token:
-    #     required: true
 
 jobs:
   tfsec:
     name: "tfsec"
     runs-on: "ubuntu-latest"
+    defaults:
+      run:
+        working-directory: "terraform"
     steps:
       - name: "Run tfsec by Aquasec"
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
