@@ -30,6 +30,10 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/checkov@main
         with:
           bc_api_key: ${{ secrets.BC_API_KEY }}
+          github_repository: ${{ github.repository }}
+          github_ref: ${{ github.ref }}
+          github_sha: ${{ github.sha }}
+          github_server_url: $GITHUB_SERVER_URL
 
   plan:
     name: "Plan"
