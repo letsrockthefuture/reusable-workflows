@@ -6,11 +6,40 @@
 on:
   workflow_call:
     inputs:
+      github_repository:
+        description: "The GitHub repository to scan."
+        type: string
+        required: true
+
+      github_ref:
+        description: "The GitHub Ref."
+        type: string
+        required: true
+
+      github_sha:
+        description: "The GitHub SHA."
+        type: string
+        required: true
+
+      github_server_url:
+        description: "The GitHub server URL."
+        type: string
+        required: true
+
       terraform_version:
         description: "The version of Terraform command-line to use."
         type: string
         default: "1.1.2"
         required: false
+
+    secrets:
+      bc_api_key:
+        description: "The API key for bridgecrew.io"
+        required: true
+
+      cli_config_credentials_token:
+          description: "The credentials token for the Terraform Cloud."
+          required: true
 
 jobs:
   # tfsec:
@@ -29,11 +58,11 @@ jobs:
       - name: "Run Checkov by bridgecrew.io"
         uses: letsrockthefuture/reusable-workflows/templates/checkov@main
         with:
-          bc_api_key: ${{ secrets.BC_API_KEY }}
-          github_repository: ${{ github.repository }}
-          github_ref: ${{ github.ref }}
-          github_sha: ${{ github.sha }}
-          github_server_url: $GITHUB_SERVER_URL
+          bc_api_key: ${{ secrets.bc_api_key }}
+          github_repository: ${{ inputs.github_repository }}
+          github_ref: ${{ inputs.github_ref }}
+          github_sha: ${{ inputs.github_sha }}
+          github_server_url: ${{ inputs.github_server_url }}
 
   plan:
     name: "Plan"
@@ -45,7 +74,7 @@ jobs:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
-          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
+          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
@@ -63,7 +92,7 @@ jobs:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
-          cli_config_credentials_token: ${{ secrets.TERRAFORM_API_TOKEN }}
+          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Apply"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main

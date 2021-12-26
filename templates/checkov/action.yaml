@@ -8,18 +8,22 @@ inputs:
     description: "The API key for bridgecrew.io"
     type: string
     required: true
+
   github_repository:
     description: "The GitHub repository to scan."
     type: string
     required: true
+
   github_ref:
     description: "The GitHub Ref."
     type: string
     required: true
+
   github_sha:
     description: "The GitHub SHA."
     type: string
     required: true
+
   github_server_url:
     description: "The GitHub server URL."
     type: string
@@ -35,7 +39,6 @@ runs:
       uses: bridgecrewio/bridgecrew-action@master
       with:
         api-key: ${{ inputs.bc_api_key }}
-        # directory: "terraform"
         soft_fail: true
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
@@ -45,12 +48,6 @@ runs:
         GITHUB_REF: ${{ inputs.github_ref }}
         GITHUB_SHA: ${{ inputs.github_sha }}
         GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
-
-    - name: "Expose the SARIF Checkov results"
-      uses: actions/upload-artifact@v2
-      with:
-        name: "Checkov SARIF results"
-        path: "results.sarif"
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
