@@ -8,5 +8,8 @@ author: "letsrockthefuture"
 runs:
   using: "composite"
   steps:
+    - name: "Run Checkout by GitHub Actions"
+      uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+
     - name: "Perform CodeQL analysis"
       uses: github/codeql-action/analyze@v1

@@ -12,6 +12,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: "Run Checkout by GitHub Actions"
+      uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+
     - name: "Initialize CodeQL"
       uses: github/codeql-action/init@v1
       with:
