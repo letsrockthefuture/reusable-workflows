@@ -26,7 +26,7 @@ runs:
         sarif_file: "tfsec.sarif"
 
     - name: "Run tfsec with reviewdog"
-      uses: reviewdog/action-tfsec@v1.11.0
+      uses: reviewdog/action-tfsec@v1.12.1
       if: github.event_name == 'pull_request'
       with:
         github_token: ${{ inputs.github_token }}
