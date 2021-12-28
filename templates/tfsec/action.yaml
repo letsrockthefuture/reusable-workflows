@@ -4,7 +4,7 @@ description: "Run the tfsec by Aquasec (static code analysis tool) on the projec
 author: "letsrockthefuture"
 
 inputs:
-  github_token:
+  tfsec_token:
     description: "The GitHub API token."
     type: string
     required: true
@@ -29,4 +29,4 @@ runs:
       uses: tfsec/tfsec-pr-commenter-action@main
       if: github.event_name == 'pull_request'
       with:
-        github_token: ${{ inputs.github_token }}
+        github_token: ${{ inputs.tfsec_token }}

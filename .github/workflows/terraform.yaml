@@ -6,25 +6,25 @@
 on:
   workflow_call:
     inputs:
-      github_repository:
-        description: "The GitHub repository to scan."
-        type: string
-        required: true
+      # github_repository:
+      #   description: "The GitHub repository to scan."
+      #   type: string
+      #   required: true
 
-      github_ref:
-        description: "The GitHub Ref."
-        type: string
-        required: true
+      # github_ref:
+      #   description: "The GitHub Ref."
+      #   type: string
+      #   required: true
 
-      github_sha:
-        description: "The GitHub SHA."
-        type: string
-        required: true
+      # github_sha:
+      #   description: "The GitHub SHA."
+      #   type: string
+      #   required: true
 
-      github_server_url:
-        description: "The GitHub server URL."
-        type: string
-        required: true
+      # github_server_url:
+      #   description: "The GitHub server URL."
+      #   type: string
+      #   required: true
 
       terraform_version:
         description: "The version of Terraform command-line to use."
@@ -33,8 +33,11 @@ on:
         required: false
 
     secrets:
-      bc_api_key:
-        description: "The API key for bridgecrew.io"
+      # bc_api_key:
+      #   description: "The API key for bridgecrew.io"
+      #   required: true
+      tfsec_token:
+        description: "The GitHub API token."
         required: true
 
       cli_config_credentials_token:
@@ -42,34 +45,34 @@ on:
           required: true
 
 jobs:
-  # tfsec:
-  #   name: "tfsec"
-  #   runs-on: "ubuntu-latest"
-  #   steps:
-  #     - name: "Run tfsec by Aquasec"
-  #       uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  checkov:
-    name: "Checkov"
+  tfsec:
+    name: "tfsec"
     runs-on: "ubuntu-latest"
     steps:
-      - name: "Run Checkov by bridgecrew.io"
-        uses: letsrockthefuture/reusable-workflows/templates/checkov@main
+      - name: "Run tfsec by Aquasec"
+        uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
-          bc_api_key: ${{ secrets.bc_api_key }}
-          github_repository: ${{ inputs.github_repository }}
-          github_ref: ${{ inputs.github_ref }}
-          github_sha: ${{ inputs.github_sha }}
-          github_server_url: ${{ inputs.github_server_url }}
+          github_token: ${{ secrets.tfsec_token }}
+
+  # checkov:
+  #   name: "Checkov"
+  #   runs-on: "ubuntu-latest"
+  #   steps:
+  #     - name: "Run Checkov by bridgecrew.io"
+  #       uses: letsrockthefuture/reusable-workflows/templates/checkov@main
+  #       with:
+  #         bc_api_key: ${{ secrets.bc_api_key }}
+  #         github_repository: ${{ inputs.github_repository }}
+  #         github_ref: ${{ inputs.github_ref }}
+  #         github_sha: ${{ inputs.github_sha }}
+  #         github_server_url: ${{ inputs.github_server_url }}
 
   plan:
     name: "Plan"
     runs-on: "ubuntu-latest"
     needs:
-      # - tfsec
-      - checkov
+      - tfsec
+      # - checkov
     steps:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
