@@ -4,7 +4,7 @@ description: "Run the tfsec by Aquasec (static code analysis tool) on the projec
 author: "letsrockthefuture"
 
 inputs:
-  tfsec_token:
+  github_token:
     description: "The GitHub API token."
     type: string
     required: true
