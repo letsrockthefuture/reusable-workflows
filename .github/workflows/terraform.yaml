@@ -5,6 +5,11 @@
 on:
   workflow_call:
     inputs:
+      working_directory:
+        description: "The working directory to run Terraform in."
+        type: string
+        required: true
+
       terraform_version:
         description: "The version of Terraform command-line to use."
         type: string
@@ -19,6 +24,10 @@ on:
       cli_config_credentials_token:
         description: "The credentials token for the Terraform Cloud."
         required: true
+
+defaults:
+  run:
+    working-directory: "{{ inputs.working_directory }}"
 
 jobs:
   tfsec:
