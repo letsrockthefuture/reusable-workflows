@@ -63,7 +63,7 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
           working_directory: ${{ inputs.working_directory }}
-          github_token: ${{ secrets.tfsec_token }}
+          tfsec_token: ${{ secrets.tfsec_token }}
 
   # checkov:
   #   name: "Checkov"
