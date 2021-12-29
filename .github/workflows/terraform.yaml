@@ -1,30 +1,10 @@
+---
 # name: "Terraform"
 # description: "The complete Terraform workflow."
 
----
 on:
   workflow_call:
     inputs:
-      # github_repository:
-      #   description: "The GitHub repository to scan."
-      #   type: string
-      #   required: true
-
-      # github_ref:
-      #   description: "The GitHub Ref."
-      #   type: string
-      #   required: true
-
-      # github_sha:
-      #   description: "The GitHub SHA."
-      #   type: string
-      #   required: true
-
-      # github_server_url:
-      #   description: "The GitHub server URL."
-      #   type: string
-      #   required: true
-
       working_directory:
         description: "The working directory of the Terraform project."
         type: string
@@ -36,31 +16,20 @@ on:
         type: string
         default: "1.1.2"
         required: false
-      
-      # chdir:
-      #   description: "The directory to run Terraform in."
-      #   type: string
-      #   required: false
 
     secrets:
-      # bc_api_key:
-      #   description: "The API key for bridgecrew.io"
-      #   required: true
       tfsec_token:
         description: "The GitHub API token."
         required: true
 
       cli_config_credentials_token:
-          description: "The credentials token for the Terraform Cloud."
-          required: true
+        description: "The credentials token for the Terraform Cloud."
+        required: true
 
 jobs:
   tfsec:
     name: "tfsec"
     runs-on: "ubuntu-latest"
-    defaults:
-      run:
-        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -78,12 +47,6 @@ jobs:
   #   steps:
   #     - name: "Run Checkov by bridgecrew.io"
   #       uses: letsrockthefuture/reusable-workflows/templates/checkov@main
-  #       with:
-  #         bc_api_key: ${{ secrets.bc_api_key }}
-  #         github_repository: ${{ inputs.github_repository }}
-  #         github_ref: ${{ inputs.github_ref }}
-  #         github_sha: ${{ inputs.github_sha }}
-  #         github_server_url: ${{ inputs.github_server_url }}
 
   plan:
     name: "Plan"
@@ -91,9 +54,6 @@ jobs:
     needs:
       - tfsec
       # - checkov
-    defaults:
-      run:
-        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -106,8 +66,8 @@ jobs:
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
         continue-on-error: true
-        # env:
-        #   CHDIR: ${{ inputs.working_directory }}
+        with:
+          working_directory: ${{ inputs.working_directory }}
 
   apply:
     name: "Apply"
@@ -115,9 +75,6 @@ jobs:
     needs:
       - plan
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    defaults:
-      run:
-        working-directory: ${{ inputs.working_directory }}
     environment:
       name: production
     steps:
@@ -131,5 +88,5 @@ jobs:
 
       - name: "Apply"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
-        # env:
-          # CHDIR: ${{ inputs.working_directory }}
+        with:
+          working_directory: ${{ inputs.working_directory }}

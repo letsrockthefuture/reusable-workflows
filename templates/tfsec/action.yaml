@@ -4,16 +4,16 @@ description: "Run the tfsec by Aquasec (static code analysis tool) on the projec
 author: "letsrockthefuture"
 
 inputs:
+  cli_config_credentials_token:
+    description: "The Terraform Cloud API token."
+    type: string
+    required: true
+
   working_directory:
     description: "The working directory of the Terraform project."
     type: string
     default: .
     required: false
-
-  cli_config_credentials_token:
-    description: "The Terraform Cloud API token."
-    type: string
-    required: true
 
   tfsec_token:
     description: "The GitHub API token."
@@ -28,26 +28,26 @@ runs:
       with:
         cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}
 
-    - name: "Terraform init"
-      shell: bash
-      env:
-        CHDIR: ${{ inputs.working_directory }}
-      run: |
-        make init
-        make terraform/init
+    - name: "Init"
+      uses: letsrockthefuture/reusable-workflows/templates/terraform/init@main
+      with:
+        working_directory: ${{ inputs.working_directory }}
 
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@v0.0.6
+      working-directory: ${{ inputs.working_directory }}
       with:
         sarif_file: "tfsec.sarif"
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
+      working-directory: ${{ inputs.working_directory }}
       with:
         sarif_file: "tfsec.sarif"
 
     - name: "tfsec PR commenter"
       uses: tfsec/tfsec-pr-commenter-action@v0.1.10
+      working-directory: ${{ inputs.working_directory }}
       if: github.event_name == 'pull_request'
       with:
         github_token: ${{ inputs.tfsec_token }}

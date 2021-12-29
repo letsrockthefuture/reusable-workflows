@@ -3,11 +3,20 @@ description: "Run the Terraform `terraform plan` command on project."
 
 author: "letsrockthefuture"
 
+inputs:
+  working_directory:
+    description: "The working directory of the Terraform project."
+    type: string
+    default: .
+    required: false
+
 runs:
   using: "composite"
   steps:
     - name: "Plan"
       shell: bash
+      env:
+        CHDIR: ${{ inputs.working_directory }}
       run: |
         make init
         make terraform/plan
