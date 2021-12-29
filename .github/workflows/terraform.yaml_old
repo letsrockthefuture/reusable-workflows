@@ -17,9 +17,9 @@ on:
         required: false
 
     secrets:
-      # tfsec_token:
-      #   description: "The GitHub API token."
-      #   required: true
+      tfsec_token:
+        description: "The GitHub API token."
+        required: true
 
       cli_config_credentials_token:
         description: "The credentials token for the Terraform Cloud."
@@ -30,18 +30,18 @@ defaults:
     working-directory: "{{ inputs.working_directory }}"
 
 jobs:
-  # tfsec:
-  #   name: "tfsec"
-  #   runs-on: "ubuntu-latest"
-  #   steps:
-  #     - name: "Run Checkout by GitHub Actions"
-  #       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+  tfsec:
+    name: "tfsec"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Run Checkout by GitHub Actions"
+        uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
-  #     - name: "Run tfsec by Aquasec"
-  #       uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
-  #       with:
-  #         cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
-  #         tfsec_token: ${{ secrets.tfsec_token }}
+      - name: "Run tfsec by Aquasec"
+        uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
+        with:
+          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+          tfsec_token: ${{ secrets.tfsec_token }}
 
   # checkov:
   #   name: "Checkov"
@@ -53,34 +53,21 @@ jobs:
   plan:
     name: "Plan"
     runs-on: "ubuntu-latest"
-    # needs:
-    #   - tfsec
+    needs:
+      - tfsec
       # - checkov
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
       - name: "Set up Terraform credentials"
-        uses: hashicorp/setup-terraform@v1
+        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
-          terraform_version: 1.1.2
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Plan"
-        id: "terraform_plan"
-        shell: bash
-        run: |
-          terraform fmt -recursive -check -diff
-          terraform init
-          terraform get
-          terraform validate -no-color
-          terraform plan -no-color
-
-      - name: "Plan status"
-        if: steps.terraform_plan.outcome == 'failure'
-        shell: bash
-        run: |
-          exit 1
+        uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
+        continue-on-error: true
 
   apply:
     name: "Apply"
@@ -97,12 +84,7 @@ jobs:
       - name: "Set up Terraform credentials"
         uses: letsrockthefuture/reusable-workflows/templates/terraform@main
         with:
-          terraform_version: 1.1.2
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Apply"
-        shell: bash
-        run: |
-          terraform init
-          terraform get
-          terraform apply -auto-approve
+        uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
