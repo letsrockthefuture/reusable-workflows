@@ -28,7 +28,7 @@ runs:
     - name: "Set up Terraform credentials"
       uses: letsrockthefuture/reusable-workflows/templates/terraform@main
       with:
-        cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+        cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}
 
     - name: "Terraform init"
       shell: bash
