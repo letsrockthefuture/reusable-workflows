@@ -54,17 +54,13 @@ on:
           description: "The credentials token for the Terraform Cloud."
           required: true
 
-defaults:
-  run:
-    working-directory: ${{ inputs.working_directory }}
-
 jobs:
   tfsec:
     name: "tfsec"
     runs-on: "ubuntu-latest"
-    # defaults:
-    #   run:
-    #     working-directory: "terraform/shared/us-east-1"
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -95,6 +91,9 @@ jobs:
     needs:
       - tfsec
       # - checkov
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -116,6 +115,9 @@ jobs:
     needs:
       - plan
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
     environment:
       name: production
     steps:
