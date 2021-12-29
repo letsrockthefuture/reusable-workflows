@@ -7,7 +7,7 @@ inputs:
   working_directory:
     description: "The working directory of the Terraform project."
     type: string
-    default: "terraform"
+    default: .
     required: false
 
   cli_config_credentials_token:

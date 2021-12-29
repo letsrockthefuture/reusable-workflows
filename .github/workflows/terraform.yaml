@@ -28,7 +28,7 @@ on:
       working_directory:
         description: "The working directory of the Terraform project."
         type: string
-        default: "terraform"
+        default: .
         required: false
 
       terraform_version:
@@ -69,7 +69,7 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
-          # working_directory: ${{ inputs.working_directory }}
+          working_directory: ${{ inputs.working_directory }}
           tfsec_token: ${{ secrets.tfsec_token }}
 
   # checkov:
