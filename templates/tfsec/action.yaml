@@ -9,10 +9,10 @@ inputs:
     type: string
     required: true
 
-  working_directory:
-    description: "The working directory of the Terraform project."
-    type: string
-    required: true
+  # working_directory:
+  #   description: "The working directory of the Terraform project."
+  #   type: string
+  #   required: true
 
   tfsec_token:
     description: "The GitHub API token."
@@ -31,14 +31,13 @@ runs:
       shell: bash
       run: |
         make init
-        CHDIR=terraform/development/us-east-1 make terraform/init
+        make terraform/init
 
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@v0.0.6
       with:
-        working_directory: ${{ inputs.working_directory }}
+        # working_directory: ${{ inputs.working_directory }}
         sarif_file: "tfsec.sarif"
-        github_token: ${{ inputs.tfsec_token }}
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
