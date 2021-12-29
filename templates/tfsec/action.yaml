@@ -23,7 +23,7 @@ runs:
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@v0.0.6
       with:
-        working_directory: ${{ input.working_directory }}
+        working_directory: ${{ inputs.working_directory }}
         sarif_file: "tfsec.sarif"
         github_token: ${{ inputs.tfsec_token }}
 
