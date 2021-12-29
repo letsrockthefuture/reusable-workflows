@@ -9,7 +9,7 @@ inputs:
     type: string
     required: true
 
-  github_token:
+  tfsec_token:
     description: "The GitHub API token."
     type: string
     required: true
