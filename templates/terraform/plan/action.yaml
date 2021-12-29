@@ -9,11 +9,11 @@ runs:
     - name: "Plan"
       shell: bash
       run: |
-        @terraform fmt -recursive -check -diff
-	      @terraform init
-        @terraform get
-        @terraform validate -no-color
-        @terraform plan -no-color
+        terraform fmt -recursive -check -diff
+	      terraform init
+        terraform get
+        terraform validate -no-color
+        terraform plan -no-color
 
     - name: "Plan status"
       if: steps.terraform_plan.outcome == 'failure'

@@ -9,6 +9,6 @@ runs:
     - name: "Apply"
       shell: bash
       run: |
-        @terraform init
-        @terraform get
-        @terraform apply -auto-approve
+        terraform init
+        terraform get
+        terraform apply -auto-approve
