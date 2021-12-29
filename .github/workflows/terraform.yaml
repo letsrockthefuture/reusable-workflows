@@ -28,7 +28,7 @@ on:
       working_directory:
         description: "The working directory of the Terraform project."
         type: string
-        default: .
+        default: "terraform"
         required: false
 
       terraform_version:
