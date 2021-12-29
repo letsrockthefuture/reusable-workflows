@@ -26,16 +26,21 @@ on:
       #   type: string
       #   required: true
 
+      working_directory:
+        description: "The working directory of the Terraform project."
+        type: string
+        required: true
+
       terraform_version:
         description: "The version of Terraform command-line to use."
         type: string
         default: "1.1.2"
         required: false
       
-      chdir:
-        description: "The directory to run Terraform in."
-        type: string
-        required: false
+      # chdir:
+      #   description: "The directory to run Terraform in."
+      #   type: string
+      #   required: false
 
     secrets:
       # bc_api_key:
@@ -57,6 +62,7 @@ jobs:
       - name: "Run tfsec by Aquasec"
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
+          working_directory: ${{ input.working_directory }}
           github_token: ${{ secrets.tfsec_token }}
 
   # checkov:
@@ -88,7 +94,7 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
         continue-on-error: true
         env:
-          CHDIR: ${{ inputs.chdir }}
+          CHDIR: ${{ inputs.working_directory }}
 
   apply:
     name: "Apply"
@@ -107,4 +113,4 @@ jobs:
       - name: "Apply"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
         env:
-          CHDIR: ${{ inputs.chdir }}
+          CHDIR: ${{ inputs.working_directory }}

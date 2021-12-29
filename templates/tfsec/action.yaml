@@ -4,6 +4,11 @@ description: "Run the tfsec by Aquasec (static code analysis tool) on the projec
 author: "letsrockthefuture"
 
 inputs:
+  working_directory:
+    description: "The working directory of the Terraform project."
+    type: string
+    required: true
+
   github_token:
     description: "The GitHub API token."
     type: string
@@ -18,7 +23,9 @@ runs:
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@v0.0.6
       with:
+        working_directory: ${{ input.working_directory }}
         sarif_file: "tfsec.sarif"
+        github_token: ${{ inputs.tfsec_token }}
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
