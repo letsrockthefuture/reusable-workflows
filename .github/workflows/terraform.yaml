@@ -62,6 +62,7 @@ jobs:
       - name: "Run tfsec by Aquasec"
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
+          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
           working_directory: ${{ inputs.working_directory }}
           tfsec_token: ${{ secrets.tfsec_token }}
 

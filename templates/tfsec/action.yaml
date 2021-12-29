@@ -4,6 +4,11 @@ description: "Run the tfsec by Aquasec (static code analysis tool) on the projec
 author: "letsrockthefuture"
 
 inputs:
+  cli_config_credentials_token:
+    description: "The Terraform Cloud API token."
+    type: string
+    required: true
+
   working_directory:
     description: "The working directory of the Terraform project."
     type: string
@@ -21,9 +26,9 @@ runs:
       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
     - name: "Set up Terraform credentials"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
-        with:
-          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+      uses: letsrockthefuture/reusable-workflows/templates/terraform@main
+      with:
+        cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
     - name: "Terraform init"
       shell: bash
