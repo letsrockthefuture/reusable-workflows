@@ -10,7 +10,7 @@ runs:
       shell: bash
       run: |
         terraform fmt -recursive -check -diff
-	      terraform init
+        terraform init
         terraform get
         terraform validate -no-color
         terraform plan -no-color
