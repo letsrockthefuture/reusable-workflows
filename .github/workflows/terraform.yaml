@@ -62,7 +62,7 @@ jobs:
       - name: "Run tfsec by Aquasec"
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
-          working_directory: ${{ input.working_directory }}
+          working_directory: ${{ inputs.working_directory }}
           github_token: ${{ secrets.tfsec_token }}
 
   # checkov:
