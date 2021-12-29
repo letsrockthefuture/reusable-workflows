@@ -8,6 +8,7 @@ on:
       working_directory:
         description: "The working directory to run Terraform in."
         type: string
+        default: .
         required: true
 
       terraform_version:
@@ -54,7 +55,7 @@ jobs:
       # - checkov
     defaults:
       run:
-        working-directory: "{{ inputs.working_directory }}"
+        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -91,7 +92,7 @@ jobs:
       name: production
     defaults:
       run:
-        working-directory: "{{ inputs.working_directory }}"
+        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
