@@ -28,15 +28,12 @@ runs:
       with:
         cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}
 
-    - name: "Init"
+    - name: "Terraform init"
       uses: letsrockthefuture/reusable-workflows/templates/terraform/init@main
-      with:
-        working_directory: ${{ inputs.working_directory }}
 
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@v0.0.6
       with:
-        working_directory: ${{ inputs.working_directory }}
         sarif_file: "tfsec.sarif"
 
     - name: "Upload SARIF result to the security code scanning alerts"

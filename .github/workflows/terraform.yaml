@@ -5,16 +5,10 @@
 on:
   workflow_call:
     inputs:
-      working_directory:
-        description: "The working directory of the Terraform project."
-        type: string
-        default: .
-        required: false
-
       terraform_version:
         description: "The version of Terraform command-line to use."
         type: string
-        default: "1.1.2"
+        default: 1.1.2
         required: false
 
     secrets:
@@ -38,7 +32,6 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
-          working_directory: ${{ inputs.working_directory }}
           tfsec_token: ${{ secrets.tfsec_token }}
 
   # checkov:
@@ -66,8 +59,6 @@ jobs:
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
         continue-on-error: true
-        with:
-          working_directory: ${{ inputs.working_directory }}
 
   apply:
     name: "Apply"
@@ -88,5 +79,3 @@ jobs:
 
       - name: "Apply"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
-        with:
-          working_directory: ${{ inputs.working_directory }}
