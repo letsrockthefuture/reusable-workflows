@@ -26,6 +26,9 @@ on:
         description: "The GitHub API token."
         required: true
 
+env:
+  TERRAFORM_CHDIR: ${{ inputs.working_directory }}
+
 jobs:
   tfsec:
     name: "tfsec"
@@ -33,7 +36,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -46,9 +48,8 @@ jobs:
 
       - name: "Terraform init"
         run: |
-          pwd
-          terraform init
-          terraform get
+          make init
+          make terraform/init
 
       - name: "Run tfsec by Aquasec"
         uses: tfsec/tfsec-sarif-action@v0.0.6
@@ -84,7 +85,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -97,11 +97,8 @@ jobs:
       - name: "Plan"
         id: "terraform_plan"
         run: |
-          terraform fmt -recursive -check -diff
-          terraform init
-          terraform get
-          terraform validate -no-color
-          terraform plan -no-color
+          make init
+          make terraform/plan
 
       - name: "Plan status"
         if: steps.terraform_plan.outcome == 'failure'
@@ -119,7 +116,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -131,6 +127,5 @@ jobs:
 
       - name: "Apply"
         run: |
-          terraform init
-          terraform get
-          terraform apply -auto-approve
+          make init
+          make terraform/apply
