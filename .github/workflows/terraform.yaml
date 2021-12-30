@@ -56,7 +56,6 @@ jobs:
         with:
           working_directory: ${{ inputs.working_directory }}
           sarif_file: "tfsec.sarif"
-          github_token: ${{ secrets.gh_token }}
 
       - name: "Upload SARIF result to the security code scanning alerts"
         uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
