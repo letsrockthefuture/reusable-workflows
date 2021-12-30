@@ -23,14 +23,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: "Set up Terraform credentials"
-      uses: letsrockthefuture/reusable-workflows/templates/terraform@main
-      with:
-        cli_config_credentials_token: ${{ inputs.cli_config_credentials_token }}
-
-    - name: "Terraform init"
-      uses: letsrockthefuture/reusable-workflows/templates/terraform/init@main
-
     - name: "Run tfsec by Aquasec"
       uses: tfsec/tfsec-sarif-action@v0.0.6
       with:

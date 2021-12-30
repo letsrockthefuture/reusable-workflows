@@ -18,30 +18,53 @@ on:
         required: false
 
     secrets:
-      # tfsec_token:
-      #   description: "The GitHub API token."
-      #   required: true
-
       cli_config_credentials_token:
         description: "The credentials token for the Terraform Cloud."
         required: true
 
-jobs:
-  # tfsec:
-  #   name: "tfsec"
-  #   runs-on: "ubuntu-latest"
-  #   defaults:
-  #     run:
-  #       working-directory: ${{ inputs.working_directory }}
-  #   steps:
-  #     - name: "Run Checkout by GitHub Actions"
-  #       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+      gh_token:
+        description: "The GitHub API token."
+        required: true
 
-  #     - name: "Run tfsec by Aquasec"
-  #       uses: letsrockthefuture/reusable-workflows/templates/tfsec@main
-  #       with:
-  #         cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
-  #         tfsec_token: ${{ secrets.tfsec_token }}
+jobs:
+  tfsec:
+    name: "tfsec"
+    runs-on: "ubuntu-latest"
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.working_directory }}
+    steps:
+      - name: "Run Checkout by GitHub Actions"
+        uses: letsrockthefuture/reusable-workflows/templates/checkout@main
+
+      - name: "Set up Terraform credentials"
+        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+
+      - name: "Terraform init"
+        run: |
+          pwd
+          terraform init
+          terraform get
+
+      - name: "Run tfsec by Aquasec"
+        uses: tfsec/tfsec-sarif-action@v0.0.6
+        with:
+          sarif_file: "tfsec.sarif"
+
+      - name: "Upload SARIF result to the security code scanning alerts"
+        uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
+        with:
+          sarif_file: "tfsec.sarif"
+
+      - name: "tfsec PR commenter"
+        uses: tfsec/tfsec-pr-commenter-action@v0.1.10
+        if: github.event_name == 'pull_request'
+        with:
+          github_token: ${{ secrets.gh_token }}
 
   # checkov:
   #   name: "Checkov"
@@ -53,11 +76,12 @@ jobs:
   plan:
     name: "Plan"
     runs-on: "ubuntu-latest"
-    # needs:
-    #   - tfsec
+    needs:
+      - tfsec
       # - checkov
     defaults:
       run:
+        shell: bash
         working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
@@ -69,20 +93,31 @@ jobs:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Plan"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
-        continue-on-error: true
+        id: "terraform_plan"
+        run: |
+          terraform fmt -recursive -check -diff
+          terraform init
+          terraform get
+          terraform validate -no-color
+          terraform plan -no-color
+
+      - name: "Plan status"
+        if: steps.terraform_plan.outcome == 'failure'
+        run: |
+          exit 1
 
   apply:
     name: "Apply"
     runs-on: "ubuntu-latest"
-    # needs:
-    #   - plan
+    needs:
+      - plan
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
     defaults:
       run:
-        working-directory: ${{ inputs.working_directory }}  
+        shell: bash
+        working-directory: ${{ inputs.working_directory }}
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
@@ -93,4 +128,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Apply"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
+        run: |
+          terraform init
+          terraform get
+          terraform apply -auto-approve
