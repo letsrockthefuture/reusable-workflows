@@ -57,9 +57,9 @@ jobs:
       #     # working_directory: "${{ github.workspace }}/${{ inputs.working_directory }}"
       #     sarif_file: "tfsec.sarif"
 
-      - uses: docker://aquasec/tfsec-ci:latest
+      - uses: docker://aquasec/tfsec:latest
         with:
-          cmd: tfsec ${{ inputs.working_directory }} --format=sarif
+          args: tfsec ${{ inputs.working_directory }} --format=sarif --out=tfsec.sarif
 
       # - name: "Run tfsec by Aquasec"
       #   working-directory: ${{ inputs.working_directory }}
