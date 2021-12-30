@@ -58,11 +58,13 @@ jobs:
       #     sarif_file: "tfsec.sarif"
 
       - uses: docker://aquasec/tfsec-ci:latest
+        with:
+          args: --format=sarif --output=tfsec.sarif ${{ inputs.working_directory }}
 
-      - name: "Run tfsec by Aquasec"
-        working-directory: ${{ inputs.working_directory }}
-        run: |
-          tfsec --format=sarif --output=tfsec.sarif .
+      # - name: "Run tfsec by Aquasec"
+      #   working-directory: ${{ inputs.working_directory }}
+      #   run: |
+      #     tfsec --format=sarif --output=tfsec.sarif .
 
       - name: "Upload SARIF result to the security code scanning alerts"
         uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main

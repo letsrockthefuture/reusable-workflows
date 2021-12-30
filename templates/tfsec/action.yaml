@@ -23,9 +23,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: aquasec/tfsec-ci:latest
+
     - name: "Run tfsec by Aquasec"
-      uses: tfsec/tfsec-sarif-action@v0.0.6
-      with:
+      
         sarif_file: "tfsec.sarif"
 
     - name: "Upload SARIF result to the security code scanning alerts"
