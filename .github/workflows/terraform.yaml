@@ -51,11 +51,17 @@ jobs:
           make init
           make terraform/init
 
+      # - name: "Run tfsec by Aquasec"
+      #   uses: tfsec/tfsec-sarif-action@v0.0.6
+      #   with:
+      #     # working_directory: "${{ github.workspace }}/${{ inputs.working_directory }}"
+      #     sarif_file: "tfsec.sarif"
+
       - name: "Run tfsec by Aquasec"
-        uses: tfsec/tfsec-sarif-action@v0.0.6
-        with:
-          # working_directory: "${{ github.workspace }}/${{ inputs.working_directory }}"
-          sarif_file: "tfsec.sarif"
+        uses: docker://aquasec/tfsec-ci:latest
+        working-directory: ${{ inputs.working_directory }}
+        run: |
+          tfsec --format=sarif --output=tfsec.sarif .
 
       - name: "Upload SARIF result to the security code scanning alerts"
         uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
