@@ -59,7 +59,7 @@ jobs:
 
       - uses: docker://aquasec/tfsec:latest
         with:
-          args: tfsec ${{ inputs.working_directory }} --format=sarif --out=tfsec.sarif
+          args: tfsec ${{ inputs.working_directory }} --format=sarif
 
       # - name: "Run tfsec by Aquasec"
       #   working-directory: ${{ inputs.working_directory }}
