@@ -45,6 +45,8 @@ jobs:
 
       - name: "Plan"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/plan@main
+        with:
+          working_directory: ${{ inputs.working_directory }}
 
   terraform_apply:
     name: "Apply"
@@ -65,3 +67,5 @@ jobs:
 
       - name: "Apply"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/apply@main
+        with:
+          working_directory: ${{ inputs.working_directory }}
