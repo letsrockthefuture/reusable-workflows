@@ -1,5 +1,5 @@
 name: "Terraform initializing"
-description: "Run the Terraform `terraform init*` command on project."
+description: "Run the Terraform `terraform init` command on project."
 
 author: "letsrockthefuture"
 

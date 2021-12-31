@@ -1,5 +1,5 @@
 name: "Terraform planning"
-description: "Run the Terraform `terraform plan*` command on project."
+description: "Run the Terraform `terraform plan` command on project."
 
 author: "letsrockthefuture"
 
@@ -7,6 +7,7 @@ runs:
   using: "composite"
   steps:
     - name: "Plan"
+      id: "terraform_plan"
       shell: bash
       run: |
         terraform fmt -recursive -check -diff
