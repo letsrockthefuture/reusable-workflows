@@ -12,7 +12,7 @@ inputs:
 
 defaults:
   run:
-    working-directory: "${{ inputs.working_directory }}"
+    working-directory: ${{ inputs.working_directory }}
 
 runs:
   using: "composite"
