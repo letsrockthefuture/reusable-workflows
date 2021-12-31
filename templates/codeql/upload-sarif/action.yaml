@@ -7,7 +7,7 @@ inputs:
   sarif_file:
     description: "The name of SARIF file results to upload."
     type: string
-    default: results.sarif
+    default: "results.sarif"
     required: false
 
 runs:

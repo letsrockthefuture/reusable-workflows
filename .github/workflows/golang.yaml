@@ -1,11 +1,11 @@
-name: "Golang"
+# name: "Golang"
 # description: "Golang workflow"
 
 on:
   workflow_call:
     inputs:
-      language:
-        description: "The programming language of the project."
+      languages:
+        description: "The programming languages of the project."
         type: string
         required: true
       flow_project_code:
@@ -33,7 +33,7 @@ jobs:
       - name: "Initialize CodeQL by GitHub"
         uses: letsrockthefuture/reusable-workflows/templates/codeql@main
         with:
-          language: ${{ inputs.language }}
+          languages: ${{ inputs.languages }}
 
       - name: "Perform CodeQL analysis"
         uses: letsrockthefuture/reusable-workflows/templates/codeql/analyze@main

@@ -4,10 +4,16 @@ description: "Run the `init` command to initialize the CodeQL on the project."
 author: "letsrockthefuture"
 
 inputs:
-  language:
-    description: "The programming language of the project."
+  languages:
+    description: "The programming languages of the project."
     type: string
     required: true
+
+# Ref: https://colinsalmcorner.com/enforcing-reusable-workflows-for-standardization/
+strategy:
+  fail-fast: false
+  matrix:
+    languages: ${{ fromJSON(inputs.languages) }}
 
 runs:
   using: "composite"
@@ -19,4 +25,4 @@ runs:
       uses: github/codeql-action/init@v1
       with:
         queries: security-and-quality
-        languages: ${{ inputs.language }}
+        languages: ${{ matrix.languages }}
