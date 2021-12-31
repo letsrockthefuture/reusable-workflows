@@ -50,22 +50,17 @@ jobs:
         run: |
           make init
           make terraform/init
-          pwd
-          ls -la
-          ls -la ${{ inputs.working_directory }}
 
-      # - name: "Run tfsec by Aquasec"
-      #   uses: tfsec/tfsec-sarif-action@v0.0.6
-      #   with:
-      #     # working_directory: "${{ github.workspace }}/${{ inputs.working_directory }}"
-      #     sarif_file: "tfsec.sarif"
-
-      - uses: docker://aquasec/tfsec:latest
+      - name: "Run tfsec by Aquasec"
+        uses: tfsec/tfsec-sarif-action@v0.0.6
         with:
-          run: |
-            ls -la
-            ls -la ${{ inputs.working_directory }}
-          args: tfsec ${{ inputs.working_directory }} --format=sarif > ${{ inputs.working_directory }}/tfsec.sarif
+          working_directory: ${{ inputs.working_directory }}
+          sarif_file: "tfsec.sarif"
+
+      # - uses: docker://aquasec/tfsec:latest
+      #   with:
+      #     working_directory: "${{ github.workspace }}/${{ inputs.working_directory }}"
+      #     args: tfsec ${{ inputs.working_directory }} --format=sarif > ${{ inputs.working_directory }}/tfsec.sarif
 
       # - name: "Run tfsec by Aquasec"
       #   working-directory: ${{ inputs.working_directory }}
@@ -81,6 +76,7 @@ jobs:
         uses: tfsec/tfsec-pr-commenter-action@v0.1.10
         if: github.event_name == 'pull_request'
         with:
+          working_directory: ${{ inputs.working_directory }}
           github_token: ${{ secrets.gh_token }}
 
   # checkov:
