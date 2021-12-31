@@ -26,8 +26,6 @@ runs:
     - uses: aquasec/tfsec-ci:latest
 
     - name: "Run tfsec by Aquasec"
-      
-        sarif_file: "tfsec.sarif"
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
