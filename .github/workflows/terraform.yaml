@@ -1,4 +1,4 @@
-name: "Terraform"
+# name: "Terraform"
 # description: "The complete Terraform workflow."
 
 on:
