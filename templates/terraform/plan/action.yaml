@@ -3,8 +3,18 @@ description: "Run the Terraform `terraform plan` command on project."
 
 author: "letsrockthefuture"
 
+inputs:
+  working_directory:
+    description: "The working directory to run Terraform in."
+    type: string
+    default: .
+    required: true
+
 runs:
   using: "composite"
+  defaults:
+    run:
+      working-directory: "${{ inputs.working_directory }}"
   steps:
     - name: "Plan"
       id: "terraform_plan"
