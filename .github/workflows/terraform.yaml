@@ -22,10 +22,6 @@ on:
         description: "The credentials token for the Terraform Cloud."
         required: true
 
-      gh_token:
-        description: "The GitHub API token."
-        required: true
-
 jobs:
   # checkov:
   #   name: "Checkov"
@@ -38,7 +34,6 @@ jobs:
     name: "Plan"
     runs-on: "ubuntu-latest"
     # needs:
-    #   - tfsec
     #   - checkov
     defaults:
       run:
