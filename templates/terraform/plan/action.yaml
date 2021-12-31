@@ -10,11 +10,12 @@ inputs:
     default: .
     required: true
 
+defaults:
+  run:
+    working-directory: "${{ inputs.working_directory }}"
+
 runs:
   using: "composite"
-  defaults:
-    run:
-      working-directory: "${{ inputs.working_directory }}"
   steps:
     - name: "Plan"
       id: "terraform_plan"
