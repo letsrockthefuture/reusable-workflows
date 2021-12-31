@@ -10,16 +10,13 @@ inputs:
     default: .
     required: true
 
-defaults:
-  run:
-    working-directory: ${{ github.event.inputs.working_directory }}
-
 runs:
   using: "composite"
   steps:
     - name: "Plan"
       id: "terraform_plan"
       shell: bash
+      working-directory: ${{ inputs.working_directory }}
       run: |
         terraform fmt -recursive -check -diff
         terraform init

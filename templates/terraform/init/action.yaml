@@ -3,11 +3,19 @@ description: "Run the Terraform `terraform init` command on project."
 
 author: "letsrockthefuture"
 
+inputs:
+  working_directory:
+    description: "The working directory to run Terraform in."
+    type: string
+    default: .
+    required: true
+
 runs:
   using: "composite"
   steps:
     - name: "Init"
       shell: bash
+      working-directory: ${{ inputs.working_directory }}
       run: |
         terraform init
         terraform get
