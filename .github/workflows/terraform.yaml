@@ -27,7 +27,7 @@ on:
 
 jobs:
   checkov:
-    name: "Checkov"
+    name: "Static code analysis"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Run Checkout by GitHub Actions"

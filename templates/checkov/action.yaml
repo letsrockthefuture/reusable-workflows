@@ -47,9 +47,8 @@ runs:
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
         quiet: true
-        framework: "terraform"
         download_external_modules: true
-        log_level: "DEBUG"
+        # log_level: "DEBUG"
       # env:
       #   GITHUB_REPOSITORY: ${{ inputs.github_repository }}
       #   GITHUB_REF: ${{ inputs.github_ref }}
@@ -58,6 +57,6 @@ runs:
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
-      # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         sarif_file: "results.sarif"
