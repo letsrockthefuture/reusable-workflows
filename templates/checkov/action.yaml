@@ -9,45 +9,52 @@ inputs:
     type: string
     required: true
 
-  github_repository:
-    description: "The GitHub repository to scan."
+  working_directory:
+    description: "The working directory to run Terraform in."
     type: string
+    default: .
     required: true
 
-  github_ref:
-    description: "The GitHub Ref."
-    type: string
-    required: true
+  # github_repository:
+  #   description: "The GitHub repository to scan."
+  #   type: string
+  #   required: true
 
-  github_sha:
-    description: "The GitHub SHA."
-    type: string
-    required: true
+  # github_ref:
+  #   description: "The GitHub Ref."
+  #   type: string
+  #   required: true
 
-  github_server_url:
-    description: "The GitHub server URL."
-    type: string
-    required: true
+  # github_sha:
+  #   description: "The GitHub SHA."
+  #   type: string
+  #   required: true
+
+  # github_server_url:
+  #   description: "The GitHub server URL."
+  #   type: string
+  #   required: true
 
 runs:
   using: "composite"
   steps:
-    - name: "Run Checkout by GitHub Actions"
-      uses: letsrockthefuture/reusable-workflows/templates/checkout@main
-
     - name: "Run Checkov by bridgecrew.io"
       uses: bridgecrewio/bridgecrew-action@master
       with:
         api-key: ${{ inputs.bc_api_key }}
-        soft_fail: true
-        skip_check: CKV_GIT_1,CKV_SECRET_6
+        directory: ${{ inputs.working_directory }}
+        soft_fail: false
+        # skip_check: CKV_GIT_1,CKV_SECRET_6
+        framework: "terraform"
         output_format: "sarif"
+        quiet: true
         download_external_modules: true
-      env:
-        GITHUB_REPOSITORY: ${{ inputs.github_repository }}
-        GITHUB_REF: ${{ inputs.github_ref }}
-        GITHUB_SHA: ${{ inputs.github_sha }}
-        GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
+        log_level: "DEBUG"
+      # env:
+      #   GITHUB_REPOSITORY: ${{ inputs.github_repository }}
+      #   GITHUB_REF: ${{ inputs.github_ref }}
+      #   GITHUB_SHA: ${{ inputs.github_sha }}
+      #   GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
