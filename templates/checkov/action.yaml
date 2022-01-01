@@ -47,6 +47,7 @@ runs:
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
         quiet: true
+        framework: "terraform"
         download_external_modules: true
         log_level: "DEBUG"
       # env:
