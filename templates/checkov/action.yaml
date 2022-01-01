@@ -3,11 +3,11 @@ description: "Run the Checkov by bridgecrew.io (static code analysis tool) on th
 
 author: "letsrockthefuture"
 
-inputs:
-  bc_api_key:
-    description: "The API key for bridgecrew.io"
-    type: string
-    required: true
+# inputs:
+#   bc_api_key:
+#     description: "The API key for bridgecrew.io"
+#     type: string
+#     required: true
 
   # working_directory:
   #   description: "The working directory to run Terraform in."
@@ -36,27 +36,9 @@ inputs:
   #   required: true
 
 runs:
-  using: "composite"
-  steps:
-    - name: "Run Checkov by bridgecrew.io"
-      uses: bridgecrewio/bridgecrew-action@master
-      with:
-        api-key: ${{ inputs.bc_api_key }}
-        # directory: ${{ inputs.working_directory }}
-        soft_fail: true # false
-        # skip_check: CKV_GIT_1,CKV_SECRET_6
-        output_format: "sarif"
-        quiet: true
-        download_external_modules: true
-        log_level: "DEBUG"
-      # env:
-      #   GITHUB_REPOSITORY: ${{ inputs.github_repository }}
-      #   GITHUB_REF: ${{ inputs.github_ref }}
-      #   GITHUB_SHA: ${{ inputs.github_sha }}
-      #   GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
-
-    - name: "Upload SARIF result to the security code scanning alerts"
-      uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      with:
-        sarif_file: "results.sarif"
+  using: "docker"
+  image: "docker://bridgecrew/bridgecrew:2.0.701"
+  args:
+    - "--directory ."
+    - "--framework terraform"
+    - "--output sarif"
