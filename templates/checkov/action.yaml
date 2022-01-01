@@ -46,7 +46,7 @@ runs:
         soft_fail: true # false
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
-        quiet: true
+        # quiet: true
         download_external_modules: true
         # log_level: "DEBUG"
       # env:
@@ -54,6 +54,13 @@ runs:
       #   GITHUB_REF: ${{ inputs.github_ref }}
       #   GITHUB_SHA: ${{ inputs.github_sha }}
       #   GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
+
+    - name: "pwd"
+      shell: bash
+      run: |
+        pwd
+        ls -la
+        ls -la terraform
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
