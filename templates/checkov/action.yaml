@@ -43,7 +43,7 @@ runs:
       with:
         api-key: ${{ inputs.bc_api_key }}
         directory: ${{ inputs.working_directory }}
-        soft_fail: false
+        soft_fail: true # false
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
         quiet: true
@@ -57,6 +57,6 @@ runs:
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         sarif_file: "results.sarif"
