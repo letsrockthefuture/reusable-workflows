@@ -9,11 +9,11 @@ inputs:
     type: string
     required: true
 
-  working_directory:
-    description: "The working directory to run Terraform in."
-    type: string
-    default: .
-    required: true
+  # working_directory:
+  #   description: "The working directory to run Terraform in."
+  #   type: string
+  #   default: .
+  #   required: true
 
   # github_repository:
   #   description: "The GitHub repository to scan."
@@ -42,7 +42,7 @@ runs:
       uses: bridgecrewio/bridgecrew-action@master
       with:
         api-key: ${{ inputs.bc_api_key }}
-        directory: ${{ inputs.working_directory }}
+        # directory: ${{ inputs.working_directory }}
         soft_fail: true # false
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
