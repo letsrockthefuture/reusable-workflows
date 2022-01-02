@@ -41,5 +41,6 @@ runs:
     - uses: "docker://bridgecrew/bridgecrew:2.0.701"
       
     - name: "Checkov"
+      shell: bash
       run: |
         checkov --version
