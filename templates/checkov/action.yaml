@@ -39,7 +39,7 @@ runs:
   using: "docker"
   image: "docker://bridgecrew/bridgecrew:2.0.701"
   args:
-    - version
+    - --version
     # - "checkov"
     # - "--directory ."
     # - "--framework terraform"
