@@ -38,7 +38,9 @@ author: "letsrockthefuture"
 runs:
   using: "docker"
   image: "docker://bridgecrew/bridgecrew:2.0.701"
-  with:
+  args:
+    - "sh -c"
+    - "checkov"
     - "--directory ."
     - "--framework terraform"
     - "--output sarif"
