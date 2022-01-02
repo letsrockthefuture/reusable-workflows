@@ -59,6 +59,7 @@ runs:
         GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
 
     - name: Echo env
+      shell: bash
       run: |
         echo $GITHUB_REPOSITORY
         echo $GITHUB_REF
