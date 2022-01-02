@@ -9,34 +9,10 @@ inputs:
     type: string
     required: true
 
-  # working_directory:
-  #   description: "The working directory to run Terraform in."
-  #   type: string
-  #   default: .
-  #   required: true
-
-  github_repository:
-    description: "The GitHub repository to scan."
+  working_directory:
+    description: "The working directory to run Terraform in."
     type: string
-    default: ${{ github.repository }}
-    required: false
-
-  github_ref:
-    description: "The GitHub Ref."
-    type: string
-    default: ${{ github.ref }}
-    required: false
-
-  github_sha:
-    description: "The GitHub SHA."
-    type: string
-    default: ${{ github.sha }}
-    required: false
-
-  github_server_url:
-    description: "The GitHub server URL."
-    type: string
-    default: $GITHUB_SERVER_URL
+    default: .
     required: false
 
 runs:
@@ -46,19 +22,18 @@ runs:
       uses: bridgecrewio/bridgecrew-action@master
       with:
         api-key: ${{ inputs.bc_api_key }}
-        # directory: ${{ inputs.working_directory }}
-        soft_fail: true # false
+        directory: ${{ inputs.working_directory }}
+        soft_fail: true
         skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
-        quiet: true
-        # download_external_modules: true
+        download_external_modules: true
       env:
-        GITHUB_REPOSITORY: ${{ inputs.github_repository }}
-        GITHUB_REF: ${{ inputs.github_ref }}
-        GITHUB_SHA: ${{ inputs.github_sha }}
-        GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_SERVER_URL: $GITHUB_SERVER_URL
 
-    - name: Echo env
+    - name: Echo env...
       shell: bash
       run: |
         echo $GITHUB_REPOSITORY
