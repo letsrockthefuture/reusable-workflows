@@ -38,6 +38,6 @@ author: "letsrockthefuture"
 runs:
   using: "composite"
   steps:
-    uses: "docker://bridgecrew/bridgecrew:2.0.701"
-    run: |
-      checkov --version
+    - uses: "docker://bridgecrew/bridgecrew:2.0.701"
+      run: |
+        checkov --version
