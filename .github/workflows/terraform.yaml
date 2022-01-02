@@ -13,22 +13,26 @@ on:
       github_repository:
         description: "The GitHub repository to scan."
         type: string
-        required: true
+        default: ${{ github.repository }}
+        required: false
 
       github_ref:
         description: "The GitHub Ref."
         type: string
-        required: true
+        default: ${{ github.ref }}
+        required: false
 
       github_sha:
         description: "The GitHub SHA."
         type: string
-        required: true
+        default: ${{ github.sha }}
+        required: false
 
       github_server_url:
         description: "The GitHub server URL."
         type: string
-        required: true
+        default: $GITHUB_SERVER_URL
+        required: false
 
       terraform_version:
         description: "The version of Terraform command-line to use."
