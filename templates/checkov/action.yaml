@@ -39,5 +39,7 @@ runs:
   using: "composite"
   steps:
     - uses: "docker://bridgecrew/checkov:2.0.701"
-      args:
-        - --version
+      env:
+        INPUT_DIRECTORY: .
+        INPUT_DOWNLOAD_EXTERNAL_MODULES: true
+
