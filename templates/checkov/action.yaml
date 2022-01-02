@@ -38,8 +38,5 @@ author: "letsrockthefuture"
 runs:
   using: "docker"
   image: "docker://bridgecrew/bridgecrew:2.0.701"
-  cmd:
-    - .
-    # - "--directory ."
-    - --framework=terraform
-    - --output=sarif
+  run: |
+    checkov --version
