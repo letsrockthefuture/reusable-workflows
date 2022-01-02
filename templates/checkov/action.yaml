@@ -36,7 +36,8 @@ author: "letsrockthefuture"
   #   required: true
 
 runs:
-  using: "docker"
-  image: "docker://bridgecrew/bridgecrew:2.0.701"
-  run: |
-    checkov --version
+  using: "composite"
+  steps:
+    uses: "docker://bridgecrew/bridgecrew:2.0.701"
+    run: |
+      checkov --version
