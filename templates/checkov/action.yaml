@@ -58,6 +58,13 @@ runs:
         GITHUB_SHA: ${{ inputs.github_sha }}
         GITHUB_SERVER_URL: ${{ inputs.github_server_url }}
 
+    - name: Echo env
+      run: |
+        echo $GITHUB_REPOSITORY
+        echo $GITHUB_REF
+        echo $GITHUB_SHA
+        echo $GITHUB_SERVER_URL
+
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
