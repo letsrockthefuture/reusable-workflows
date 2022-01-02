@@ -39,8 +39,5 @@ runs:
   using: "composite"
   steps:
     - uses: "docker://bridgecrew/checkov:2.0.701"
-      
-    - name: "Checkov"
-      shell: bash
-      run: |
-        checkov --version
+      args:
+        - --version
