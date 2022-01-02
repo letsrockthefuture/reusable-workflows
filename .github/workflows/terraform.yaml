@@ -10,6 +10,26 @@ on:
         default: .
         required: false
 
+      github_repository:
+        description: "The GitHub repository to scan."
+        type: string
+        required: true
+
+      github_ref:
+        description: "The GitHub Ref."
+        type: string
+        required: true
+
+      github_sha:
+        description: "The GitHub SHA."
+        type: string
+        required: true
+
+      github_server_url:
+        description: "The GitHub server URL."
+        type: string
+        required: true
+
       terraform_version:
         description: "The version of Terraform command-line to use."
         type: string
@@ -17,9 +37,9 @@ on:
         required: false
 
     secrets:
-      # bc_api_key:
-      #   description: "The API key for bridgecrew.io"
-      #   required: true
+      bc_api_key:
+        description: "The API key for bridgecrew.io"
+        required: true
 
       cli_config_credentials_token:
         description: "The credentials token for the Terraform Cloud."
@@ -33,10 +53,10 @@ jobs:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
 
-      - name: "Set up Terraform credentials"
-        uses: letsrockthefuture/reusable-workflows/templates/terraform@main
-        with:
-          cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
+      # - name: "Set up Terraform credentials"
+      #   uses: letsrockthefuture/reusable-workflows/templates/terraform@main
+      #   with:
+      #     cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
       - name: "Init"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/init@main
@@ -45,9 +65,12 @@ jobs:
 
       - name: "Run Checkov by bridgecrew.io"
         uses: letsrockthefuture/reusable-workflows/templates/checkov@main
-        # with:
-        #   bc_api_key: ${{ secrets.bc_api_key }}
-          # working_directory: ${{ inputs.working_directory }}
+        with:
+          bc_api_key: ${{ secrets.bc_api_key }}
+          github_repository: ${{ inputs.github_repository }}
+          github_ref: ${{ inputs.github_ref }}
+          github_sha: ${{ inputs.github_sha }}
+          github_server_url: ${{ inputs.github_server_url }}
 
   terraform_plan:
     name: "Plan"
