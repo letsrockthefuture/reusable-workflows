@@ -47,7 +47,7 @@ jobs:
         uses: letsrockthefuture/reusable-workflows/templates/checkov@main
         with:
           bc_api_key: ${{ secrets.bc_api_key }}
-          working_directory: ${{ inputs.working_directory }}
+          # working_directory: ${{ inputs.working_directory }}
 
   terraform_plan:
     name: "Plan"
