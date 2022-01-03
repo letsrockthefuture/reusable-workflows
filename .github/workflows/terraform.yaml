@@ -26,31 +26,8 @@ on:
         required: true
 
 jobs:
-  # checkov:
-  #   name: "Static code analysis"
-  #   runs-on: "ubuntu-latest"
-  #   steps:
-  #     - name: "Run Checkout by GitHub Actions"
-  #       uses: letsrockthefuture/reusable-workflows/templates/checkout@main
-
-  #     - name: "Set up Terraform credentials"
-  #       uses: letsrockthefuture/reusable-workflows/templates/terraform@main
-  #       with:
-  #         cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
-
-  #     - name: "Init"
-  #       uses: letsrockthefuture/reusable-workflows/templates/terraform/init@main
-  #       with:
-  #         working_directory: ${{ inputs.working_directory }}
-
-  #     - name: "Run Checkov by bridgecrew.io"
-  #       uses: letsrockthefuture/reusable-workflows/templates/checkov@main
-  #       with:
-  #         bc_api_key: ${{ secrets.bc_api_key }}
-  #         working_directory: ${{ inputs.working_directory }}
-
-  terrascan:
-    name: "Terrascan"
+  checkov:
+    name: "Static code analysis"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Run Checkout by GitHub Actions"
@@ -66,27 +43,17 @@ jobs:
         with:
           working_directory: ${{ inputs.working_directory }}
 
-      - name: "Run Terrascan by Accurics"
-        uses: accurics/terrascan-action@main
+      - name: "Run Checkov by bridgecrew.io"
+        uses: letsrockthefuture/reusable-workflows/templates/checkov@main
         with:
-          iac_type: "terraform"
-          iac_version: "v14"
-          policy_type: "aws"
-          only_warn: true
-          sarif_upload: true
-          iac_dir: ${{ inputs.working_directory }}
-
-      - name: Upload SARIF result file
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: terrascan.sarif
+          bc_api_key: ${{ secrets.bc_api_key }}
+          working_directory: ${{ inputs.working_directory }}
 
   terraform_plan:
     name: "Plan"
     runs-on: "ubuntu-latest"
     needs:
-      # - checkov
-      - terrascan
+      - checkov
     steps:
       - name: "Run Checkout by GitHub Actions"
         uses: letsrockthefuture/reusable-workflows/templates/checkout@main
