@@ -38,7 +38,7 @@ jobs:
         with:
           cli_config_credentials_token: ${{ secrets.cli_config_credentials_token }}
 
-      - name: "Init"
+      - name: "Terraform init"
         uses: letsrockthefuture/reusable-workflows/templates/terraform/init@main
         with:
           working_directory: ${{ inputs.working_directory }}
