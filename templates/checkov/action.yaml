@@ -22,20 +22,20 @@ runs:
       uses: bridgecrewio/bridgecrew-action@master
       with:
         api-key: ${{ inputs.bc_api_key }}
-        directory: "$GITHUB_ACTION_PATH/${{ inputs.working_directory }}"
+        directory: ${{ inputs.working_directory }}
         soft_fail: true
         # skip_check: CKV_GIT_1,CKV_SECRET_6
         output_format: "sarif"
         download_external_modules: true
 
-    - name: "Export the SARIF results"
-      uses: actions/upload-artifact@v2
-      with:
-        name: "SARIF results"
-        path: "results.sarif"
+    # - name: "Export the SARIF results"
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: "SARIF results"
+    #     path: "results.sarif"
 
-    - name: "Upload SARIF result to the security code scanning alerts"
-      uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
-      # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      with:
-        sarif_file: "results.sarif"
+    # - name: "Upload SARIF result to the security code scanning alerts"
+    #   uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
+    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    #   with:
+    #     sarif_file: "results.sarif"
