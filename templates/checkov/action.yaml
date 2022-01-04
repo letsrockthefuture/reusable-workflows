@@ -28,11 +28,11 @@ runs:
         output_format: "sarif"
         download_external_modules: true
 
-    - name: Export the check results
+    - name: "Export the SARIF results"
       uses: actions/upload-artifact@v2
       with:
-        name: Checkov check results
-        path: results.sarif
+        name: "SARIF results"
+        path: "results.sarif"
 
     - name: "Upload SARIF result to the security code scanning alerts"
       uses: letsrockthefuture/reusable-workflows/templates/codeql/upload-sarif@main
