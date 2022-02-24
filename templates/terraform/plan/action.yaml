@@ -1,5 +1,5 @@
 name: "Terraform planning"
-description: "Run the Terraform `terraform plan` command on project."
+description: "Run the Terraform plan command on project."
 
 author: "letsrockthefuture"
 

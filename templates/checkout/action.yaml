@@ -1,5 +1,5 @@
 name: "Checkout by GitHub Actions"
-description: "Gets any code."
+description: "Check the project repository code."
 
 author: "letsrockthefuture"
 

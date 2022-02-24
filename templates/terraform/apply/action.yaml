@@ -1,5 +1,5 @@
 name: "Terraform applying"
-description: "Run the Terraform `terraform apply` command on project."
+description: "Run the Terraform apply command on project."
 
 author: "letsrockthefuture"
 
